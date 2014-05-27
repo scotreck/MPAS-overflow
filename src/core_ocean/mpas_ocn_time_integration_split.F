@@ -780,15 +780,16 @@ module ocn_time_integration_split
                                + sin(block % mesh % angleEdge % array(iEdge))*config_inflow_y_velocity 
 
                      ! inflow top from eqn 3 of Legg 2006, h(x_w) = h_0 exp(-x_w/L_\rho)
-                     zInflowTop = - config_inflow_embayment_depth &
-                        + config_inflow_height*(-(block % mesh % yEdge % array(iEdge) - config_inflow_x0)/config_inflow_Lrho)
-
+                     zInflowTop =  - config_inflow_embayment_depth &
+                        !+ config_inflow_height*EXP(-(block % mesh % xEdge % array(iEdge) - config_inflow_x0)/config_inflow_Lrho) !CASE 0 and 1
+                        + config_inflow_height*(1.0-(block % mesh % xEdge % array(iEdge) - config_inflow_x0)/2.0e5) !CASE 2 and 3
                      ! Set u to inflow value, but only below the specified depth.
                      do k=1,block % mesh % maxLevelEdgeTop % array(iEdge)
-                        if ( block % mesh % refZMid % array(k) .lt. zInflowTop) then
-                           block % state % time_levs(2) % state % uTransport % array(k,iEdge) = uInflow
-                        else
+                        if ( -block % mesh % refBottomDepth % array(k) .gt. zInflowTop) then !CASE 1 and 3
+                        !if ( -(block % mesh % refBottomDepth % array(k) + block % mesh % refZMid % array(k)) .gt. zInflowTop) then !CASE 0 and 2
                            block % state % time_levs(2) % state % uTransport % array(k,iEdge) = 0.0
+                        else
+                           block % state % time_levs(2) % state % uTransport % array(k,iEdge) = uInflow
                         endif
                      enddo
 

@@ -87,9 +87,9 @@ ifort:
 	"CC_PARALLEL = mpicc" \
 	"FC_SERIAL = ifort" \
 	"CC_SERIAL = icc" \
-	"FFLAGS_OPT = -real-size 64 -O3 -convert big_endian -FR" \
-	"CFLAGS_OPT = -O3" \
-	"LDFLAGS_OPT = -O3" \
+	"FFLAGS_OPT = -real-size 64 -O1 -convert big_endian -FR" \
+	"CFLAGS_OPT = -O1" \
+	"LDFLAGS_OPT = -O1" \
 	"FFLAGS_DEBUG = -real-size 64 -g -convert big_endian -FR -CU -CB -check all -fpe0 -traceback" \
 	"CFLAGS_DEBUG = -g -fpe0 -traceback" \
 	"LDFLAGS_DEBUG = -g -fpe0 -traceback" \
